@@ -33,21 +33,23 @@ This generates the following pages automatically:
 
 | URL | Content |
 |-----|---------|
-| `/archive/` | List of all years with post counts |
-| `/archive/[year]/` | Posts published in that year, sorted by date descending |
+| `/blog/archive/` | List of all years with post counts |
+| `/blog/archive/[year]/` | Posts published in that year, sorted by date descending |
+
+Because the default prefix starts with `blog/`, archive pages fall under the blog namespace and the blog sidebar (provided by `starlight-blog`) is shown automatically.
 
 ## Options
 
 ```ts
 starlightBlogArchive({
-  prefix: 'archive',  // URL prefix for archive pages. Default: 'archive'
-  sidebar: true,      // Add a link to /archive/ in the Starlight sidebar. Default: false
+  prefix: 'blog/archive',  // URL prefix for archive pages. Default: 'blog/archive'
+  sidebar: true,           // Add a link to /blog/archive/ in the Starlight sidebar. Default: false
 })
 ```
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `prefix` | `string` | `'archive'` | URL prefix for archive pages |
+| `prefix` | `string` | `'blog/archive'` | URL prefix for archive pages |
 | `sidebar` | `boolean` | `false` | Add a link to the archive index in the Starlight sidebar |
 
 ## Behavior
@@ -57,6 +59,6 @@ starlightBlogArchive({
 The plugin targets **every document in the `docs` collection that has a `date` field**, regardless of whether a static archive page existed before. This means:
 
 - If you are migrating from hand-written `archive/YYYY/index.md` files and some years were missing, the plugin will generate pages for those years automatically.
-- A post with `date: 2015-03-01` will create `/archive/2015/` even if that year had no static page before.
+- A post with `date: 2015-03-01` will create `/blog/archive/2015/` even if that year had no static page before.
 
 To verify which years will be generated before removing static pages, run a production build and check the output.
