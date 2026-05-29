@@ -1,5 +1,6 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import config from 'virtual:starlight-blog-archive/config'
 import { getArchiveEntriesByYear } from '../libs/content'
 
 export const prerender = true
@@ -8,7 +9,7 @@ const byYear = await getArchiveEntriesByYear()
 const years = Array.from(byYear.keys()).sort((a, b) => b - a)
 ---
 
-<StarlightPage frontmatter={{ title: 'Archive', pagefind: false, prev: false, next: false }}>
+<StarlightPage frontmatter={{ title: config.title, pagefind: false, prev: false, next: false }}>
   <ul>
     {
       years.map((year) => {
