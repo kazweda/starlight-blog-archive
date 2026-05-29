@@ -12,7 +12,9 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./routes/ArchiveIndex.astro": "./src/routes/ArchiveIndex.astro",
+    "./routes/ArchiveYear.astro": "./src/routes/ArchiveYear.astro"
   },
   "peerDependencies": {
     "astro": "^4 || ^5 || ^6",
