@@ -1,0 +1,30 @@
+---
+import type { InferGetStaticPropsType } from 'astro'
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import { getArchiveStaticPaths } from '../libs/content'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  return getArchiveStaticPaths()
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { year, entries } = Astro.props
+---
+
+<StarlightPage frontmatter={{ title: String(year), pagefind: false, prev: false, next: false }}>
+  <ul>
+    {
+      entries.map((entry) => (
+        <li>
+          <a href={`/${entry.id}/`}>{entry.data.title}</a>
+          <time datetime={entry.data.date.toISOString()}>
+            {entry.data.date.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' })}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
+</StarlightPage>

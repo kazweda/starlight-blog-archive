@@ -1,0 +1,26 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import { getArchiveEntriesByYear } from '../libs/content'
+
+export const prerender = true
+
+const byYear = await getArchiveEntriesByYear()
+const years = Array.from(byYear.keys()).sort((a, b) => b - a)
+---
+
+<StarlightPage frontmatter={{ title: 'Archive', pagefind: false, prev: false, next: false }}>
+  <ul>
+    {
+      years.map((year) => {
+        const count = byYear.get(year)!.length
+        const base = Astro.url.pathname.replace(/\/?$/, '/')
+        return (
+          <li>
+            <a href={`${base}${year}/`}>{year}</a>
+            <span>({count})</span>
+          </li>
+        )
+      })
+    }
+  </ul>
+</StarlightPage>
