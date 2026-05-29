@@ -17,17 +17,14 @@ const { year, entries } = Astro.props
 <StarlightPage frontmatter={{ title: String(year), pagefind: false, prev: false, next: false }}>
   <ul>
     {
-      entries.map((entry) => {
-        const date = (entry.data as Record<string, unknown>)['date'] as Date
-        return (
-          <li>
-            <a href={`/${entry.id}/`}>{entry.data.title}</a>
-            <time datetime={date.toISOString()}>
-              {date.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' })}
-            </time>
-          </li>
-        )
-      })
+      entries.map((entry) => (
+        <li>
+          <a href={`/${entry.id}/`}>{entry.data.title}</a>
+          <time datetime={entry.data.date.toISOString()}>
+            {entry.data.date.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' })}
+          </time>
+        </li>
+      ))
     }
   </ul>
 </StarlightPage>

@@ -2,33 +2,34 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 
 export type DocsEntry = CollectionEntry<'docs'>
 
-function getEntryDate(entry: DocsEntry): Date | undefined {
-  const date = (entry.data as Record<string, unknown>)['date']
-  return date instanceof Date ? date : undefined
+export type BlogEntry = DocsEntry & {
+  data: DocsEntry['data'] & { date: Date }
 }
 
-export async function getArchiveEntriesByYear(): Promise<Map<number, DocsEntry[]>> {
+function toBlogEntry(entry: DocsEntry): BlogEntry | undefined {
+  const date = (entry.data as Record<string, unknown>)['date']
+  if (!(date instanceof Date)) return undefined
+  return entry as BlogEntry
+}
+
+export async function getArchiveEntriesByYear(): Promise<Map<number, BlogEntry[]>> {
   const docs = await getCollection('docs')
 
-  const byYear = new Map<number, DocsEntry[]>()
+  const byYear = new Map<number, BlogEntry[]>()
   for (const entry of docs) {
-    const date = getEntryDate(entry)
-    if (!date) continue
+    const blogEntry = toBlogEntry(entry)
+    if (!blogEntry) continue
 
-    const year = date.getFullYear()
+    const year = blogEntry.data.date.getFullYear()
     const list = byYear.get(year) ?? []
-    list.push(entry)
+    list.push(blogEntry)
     byYear.set(year, list)
   }
 
   for (const [year, entries] of byYear) {
     byYear.set(
       year,
-      entries.sort((a, b) => {
-        const da = getEntryDate(a)!
-        const db = getEntryDate(b)!
-        return db.getTime() - da.getTime()
-      }),
+      entries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
     )
   }
 
