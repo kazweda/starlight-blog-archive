@@ -17,6 +17,12 @@ declare module 'virtual:starlight/plugin-translations' {
   export default translations
 }
 
+declare module 'virtual:starlight-blog-archive/config' {
+  import type { StarlightBlogArchiveConfig } from './libs/vite'
+  const config: StarlightBlogArchiveConfig
+  export default config
+}
+
 // Vite raw import for .jsonc files (used in starlight/expressive-code)
 declare module '*.jsonc?raw' {
   const content: string
