@@ -11,7 +11,7 @@ export type StarlightBlogArchiveOptions = {
 }
 
 export default function starlightBlogArchive(options?: StarlightBlogArchiveOptions): StarlightPlugin {
-  const prefix = options?.prefix ?? 'blog/archive'
+  const prefix = options?.prefix ?? 'archive'
   const title = options?.title ?? 'Archive'
 
   return {
